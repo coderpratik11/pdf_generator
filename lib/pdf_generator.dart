@@ -3,7 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
+import 'package:pdf/widgets.dart';
 
 //Pdf generating function
 Future<Uint8List> generateInvoice(PdfPageFormat pageFormat) async {
@@ -31,6 +31,29 @@ Future<Uint8List> generateInvoice(PdfPageFormat pageFormat) async {
       accentColor: PdfColors.grey200);
 
   return await invoice.buildPdf(pageFormat);
+}
+
+Future<Uint8List> generateInvoicehindi(PdfPageFormat pageFormat) async {
+  final productsHindi = <Product>[
+    const Product('1', 'ड्वेन क्लार्क', 3, 1),
+    const Product('2', 'ड्वेन क्लार्क', 5, 4),
+    const Product('3', 'ड्वेन क्लार्क', 6, 2),
+    const Product('4', 'ड्वेन क्लार्क', 1, 14),
+  ];
+
+  final invoiceHindi = Invoice(
+      invoiceNumber: '१००',
+      products: productsHindi,
+      customerName: 'ड्वेन क्लार्क',
+      customerAddress: '२४ डमी स्ट्रीट क्षेत्र,\nस्थान, लोरेम इप्सम,\n४४२x२१०',
+      paymentInfo:
+          '4509 वाइसमैन स्ट्रीट\nनॉक्सविल, टेनेसी(TN), 37929\n865-372-0425',
+      tax: .1,
+      tableColor: Invoice._darkColor,
+      baseColor: PdfColors.amber,
+      accentColor: PdfColors.grey200);
+
+  return await invoiceHindi.buildPdf(pageFormat);
 }
 
 //Procuct class for table
@@ -115,22 +138,31 @@ class Invoice {
 
   Future<Uint8List> buildPdf(PdfPageFormat pageFormat) async {
     final doc = pw.Document();
+    var devFont =
+        Font.ttf(await rootBundle.load("fonts/NotoSansDevanagari.ttf"));
 
     _logo = await rootBundle.loadString('assets/brand_icon.svg');
 
     doc.addPage(
       pw.MultiPage(
-        pageTheme: _buildTheme(
-          pageFormat,
-          await PdfGoogleFonts.robotoRegular(),
-          await PdfGoogleFonts.robotoBold(),
-          await PdfGoogleFonts.robotoItalic(),
-        ),
+        theme: pw.ThemeData.withFont(base: devFont),
+        pageFormat: pageFormat.copyWith(
+            marginBottom: 0, marginLeft: 0, marginRight: 0, marginTop: 0),
         header: _buildHeader,
         footer: _buildFooter,
         build: (context) => [
           _contentHeader(context),
           _contentTable(context),
+          pw.Padding(
+            padding: const EdgeInsets.only(left: 45, right: 45),
+            child: pw.Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: PdfColors.black),
+                color: PdfColors.grey200,
+              ),
+              height: 60,
+            ),
+          ),
           pw.SizedBox(height: 20),
           _contentFooter(context),
           pw.SizedBox(height: 20),
@@ -140,25 +172,6 @@ class Invoice {
 
     // Return the PDF file content
     return doc.save();
-  }
-
-  //pagetheme
-  pw.PageTheme _buildTheme(
-      PdfPageFormat pageFormat, pw.Font base, pw.Font bold, pw.Font italic) {
-    return pw.PageTheme(
-      pageFormat: pageFormat.copyWith(
-        marginBottom: 0,
-        marginLeft: 0,
-        marginRight: 0,
-        marginTop: 0,
-      ),
-      theme: pw.ThemeData.withFont(
-        base: base,
-        bold: bold,
-        italic: italic,
-      ),
-      //     pw.FullPage(ignoreMargins: true, child: pw.SvgImage(svg: _logo!))
-    );
   }
 
   //Header Widget of the Pdf page
@@ -223,7 +236,7 @@ class Invoice {
           pw.Container(
             height: 50,
             width: 140,
-            alignment: pw.Alignment(0, 0),
+            alignment: const pw.Alignment(0, 0),
             child: pw.Text('INVOICE', style: const pw.TextStyle(fontSize: 32)),
           ),
           pw.Container(color: baseColor, height: 30, width: 80)
@@ -298,9 +311,7 @@ class Invoice {
                       pw.Text('Invoice to:',
                           style: pw.TextStyle(
                               fontSize: 18, fontWeight: pw.FontWeight.bold)),
-                      pw.Text(customerName,
-                          style: pw.TextStyle(
-                              fontSize: 13, fontWeight: pw.FontWeight.bold)),
+                      pw.Text(customerName, style: pw.TextStyle(fontSize: 18)),
                       pw.Text(customerAddress),
                     ])),
             pw.Spacer(),
@@ -315,7 +326,9 @@ class Invoice {
                             style: pw.TextStyle(
                                 fontSize: 13, fontWeight: pw.FontWeight.bold)),
                         pw.Spacer(),
-                        pw.Text(invoiceNumber),
+                        pw.Text(
+                          invoiceNumber,
+                        ),
                       ]),
                       pw.Row(children: [
                         pw.Text('Date'),
@@ -465,7 +478,10 @@ class Invoice {
     const tableHeaders = ['SL.', 'Item Description', 'Price', 'Qty', 'Total'];
 
     return pw.Container(
-        padding: const pw.EdgeInsets.only(left: 45, right: 45, bottom: 20),
+        padding: const pw.EdgeInsets.only(
+          left: 45,
+          right: 45,
+        ),
         child: pw.Table.fromTextArray(
           border: const pw.TableBorder(
               left: pw.BorderSide(width: 1), right: pw.BorderSide(width: 1)),
