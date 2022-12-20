@@ -3,7 +3,7 @@ import 'package:pdf_generator/pdf_generator.dart';
 import 'package:printing/printing.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -47,11 +47,14 @@ class _MyAppState extends State<MyApp> {
                   });
                 },
               ),
-              const Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'हिंदी',
-                  style: TextStyle(color: Colors.white),
+              const Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'हिंदी',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],
