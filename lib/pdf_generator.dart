@@ -25,7 +25,7 @@ Future<Uint8List> generateInvoice(PdfPageFormat pageFormat) async {
       paymentInfo:
           '4509 Wiseman Street\nKnoxville, Tennessee(TN), 37929\n865-372-0425',
       tax: .15,
-      tableColor: PdfColors.grey900,
+      tableColor: PdfColors.blueGrey900,
       baseColor: PdfColors.amber,
       accentColor: PdfColors.grey200);
 
@@ -47,9 +47,9 @@ Future<Uint8List> generateInvoicehindi(PdfPageFormat pageFormat) async {
       customerName: 'ड्वेन क्लार्क',
       customerAddress: '२४ डमी स्ट्रीट क्षेत्र,\nस्थान, लोरेम इप्सम,\n४४२x२१०',
       paymentInfo:
-          '4509 वाइसमैन स्ट्रीट\nनॉक्सविल, टेनेसी(TN), 37929\n865-372-0425',
+          '4509 वाइसमैन स्ट्रीट\t \nनॉक्सविल, टेनेसी(TN), 37929\n865-372-0425',
       tax: .1,
-      tableColor: PdfColors.grey900,
+      tableColor: PdfColors.blueGrey900,
       baseColor: PdfColors.amber,
       accentColor: PdfColors.grey200);
 

@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:pdf/widgets.dart' as pw;
-
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
@@ -61,6 +60,7 @@ class Invoice {
         build: (context) => [
           _contentHeader(context),
           _contentTable(context),
+          _tableend(context),
           pw.SizedBox(height: 10),
           _contentFooter(context),
           pw.SizedBox(height: 20),
@@ -109,7 +109,7 @@ class Invoice {
                       ),
                     ),
                     pw.Container(
-                      padding: const pw.EdgeInsets.only(left: 2),
+                      padding: const pw.EdgeInsets.only(left: 4),
                       height: 2,
                       alignment: pw.Alignment.centerLeft,
                     ),
@@ -118,7 +118,7 @@ class Invoice {
                       style: pw.TextStyle(
                         color: tableColor,
                         fontWeight: pw.FontWeight.normal,
-                        fontSize: 10,
+                        fontSize: 9,
                       ),
                     ),
                   ],
@@ -130,14 +130,14 @@ class Invoice {
         ),
         if (context.pageNumber > 1) pw.SizedBox(height: 20),
         pw.Row(children: [
-          pw.Container(color: baseColor, height: 30, width: 400),
+          pw.Container(color: baseColor, height: 32, width: 400),
           pw.Container(
             height: 50,
             width: 140,
             alignment: const pw.Alignment(0, 0),
-            child: pw.Text('INVOICE', style: const pw.TextStyle(fontSize: 32)),
+            child: pw.Text('INVOICE', style: const TextStyle(fontSize: 32)),
           ),
-          pw.Container(color: baseColor, height: 30, width: 80)
+          pw.Container(color: baseColor, height: 32, width: 80)
         ])
       ],
     );
@@ -195,7 +195,7 @@ class Invoice {
   pw.Widget _contentHeader(pw.Context context) {
     return pw.Container(
         height: 100,
-        padding: const pw.EdgeInsets.only(left: 45, right: 45),
+        padding: const pw.EdgeInsets.only(left: 45, right: 45, top: 10),
         child: pw.Row(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
@@ -210,7 +210,8 @@ class Invoice {
                           style: pw.TextStyle(
                               fontSize: 18, fontWeight: pw.FontWeight.bold)),
                       pw.Text(customerName,
-                          style: const pw.TextStyle(fontSize: 18)),
+                          style: pw.TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.normal)),
                       pw.Text(customerAddress),
                     ])),
             pw.Spacer(),
@@ -230,9 +231,12 @@ class Invoice {
                         ),
                       ]),
                       pw.Row(children: [
-                        pw.Text('Date'),
+                        pw.Text('Date',
+                            style: pw.TextStyle(fontWeight: FontWeight.bold)),
                         pw.Spacer(),
-                        pw.Text(_formatDate(DateTime.now())),
+                        pw.Text(
+                          _formatDate(DateTime.now()),
+                        ),
                       ])
                     ]))
           ],
@@ -242,13 +246,16 @@ class Invoice {
 //Footer content after Table Widget
   pw.Widget _contentFooter(pw.Context context) {
     return pw.Container(
-        height: 200,
+        margin: const pw.EdgeInsets.only(top: 10),
+        height: 180,
         width: double.infinity,
         child: pw.Row(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             pw.Container(
-              padding: const pw.EdgeInsets.only(left: 45),
+              padding: const pw.EdgeInsets.only(
+                left: 45,
+              ),
               height: 200,
               width: 300,
               child: pw.Column(
@@ -384,6 +391,7 @@ class Invoice {
 
     return pw.Container(
         padding: const pw.EdgeInsets.only(
+          top: 20,
           left: 45,
           right: 45,
         ),
@@ -392,13 +400,16 @@ class Invoice {
             pw.Container(
               width: 20,
               height: 30,
-              color: tableColor,
+              decoration: BoxDecoration(
+                  color: tableColor,
+                  border:
+                      Border(left: BorderSide(width: 1, color: tableColor))),
               padding: const EdgeInsets.only(left: 20, top: 8),
               child: pw.Text(tableHeaders[0],
                   style: TextStyle(
                       color: PdfColors.white,
                       fontSize: 10,
-                      fontWeight: pw.FontWeight.bold)),
+                      fontWeight: FontWeight.normal)),
             ),
             pw.Container(
               width: 100,
@@ -409,7 +420,7 @@ class Invoice {
                   style: TextStyle(
                       color: PdfColors.white,
                       fontSize: 10,
-                      fontWeight: pw.FontWeight.bold)),
+                      fontWeight: pw.FontWeight.normal)),
             ),
             pw.Container(
               width: 20,
@@ -420,7 +431,7 @@ class Invoice {
                   style: TextStyle(
                       color: PdfColors.white,
                       fontSize: 10,
-                      fontWeight: pw.FontWeight.bold)),
+                      fontWeight: pw.FontWeight.normal)),
             ),
             pw.Container(
               width: 20,
@@ -431,14 +442,14 @@ class Invoice {
                   style: TextStyle(
                       color: PdfColors.white,
                       fontSize: 10,
-                      fontWeight: pw.FontWeight.bold)),
+                      fontWeight: pw.FontWeight.normal)),
             ),
             pw.Container(
               width: 35,
               height: 30,
               decoration: BoxDecoration(
                 border: Border(
-                  right: BorderSide(color: tableColor),
+                  right: BorderSide(color: tableColor, width: 10),
                 ),
                 color: tableColor,
               ),
@@ -457,14 +468,14 @@ class Invoice {
             pw.TableRow(children: [
               pw.Container(
                 width: 20,
-                height: 40,
+                height: 45,
                 decoration: BoxDecoration(
                   border: Border(
                     left: BorderSide(color: tableColor, width: 1.5),
                   ),
-                  color: i % 2 == 0 ? PdfColors.grey400 : accentColor,
+                  color: i % 2 == 0 ? PdfColors.white : accentColor,
                 ),
-                padding: const EdgeInsets.only(left: 20, top: 12),
+                padding: const EdgeInsets.only(left: 20, top: 15),
                 child: pw.Text(sl[i],
                     style: const TextStyle(
                       color: PdfColors.black,
@@ -473,11 +484,11 @@ class Invoice {
               ),
               pw.Container(
                 width: 100,
-                height: 40,
+                height: 45,
                 decoration: BoxDecoration(
-                  color: i % 2 == 0 ? PdfColors.grey400 : accentColor,
+                  color: i % 2 == 0 ? PdfColors.white : accentColor,
                 ),
-                padding: const EdgeInsets.only(left: 20, top: 12),
+                padding: const EdgeInsets.only(left: 20, top: 15),
                 child: pw.Text(productname[i],
                     style: const TextStyle(
                       color: PdfColors.black,
@@ -486,11 +497,11 @@ class Invoice {
               ),
               pw.Container(
                 width: 20,
-                height: 40,
+                height: 45,
                 decoration: BoxDecoration(
-                  color: i % 2 == 0 ? PdfColors.grey400 : accentColor,
+                  color: i % 2 == 0 ? PdfColors.white : accentColor,
                 ),
-                padding: const EdgeInsets.only(left: 15, top: 12),
+                padding: const EdgeInsets.only(left: 15, top: 15),
                 child: pw.Text(price[i].toString(),
                     style: const TextStyle(
                       color: PdfColors.black,
@@ -499,11 +510,11 @@ class Invoice {
               ),
               pw.Container(
                 width: 20,
-                height: 40,
+                height: 45,
                 decoration: BoxDecoration(
-                  color: i % 2 == 0 ? PdfColors.grey400 : accentColor,
+                  color: i % 2 == 0 ? PdfColors.white : accentColor,
                 ),
-                padding: const EdgeInsets.only(left: 16, top: 12),
+                padding: const EdgeInsets.only(left: 22, top: 15),
                 child: pw.Text(qty[i].toString(),
                     style: const TextStyle(
                       color: PdfColors.black,
@@ -512,14 +523,14 @@ class Invoice {
               ),
               pw.Container(
                 width: 35,
-                height: 40,
+                height: 45,
                 decoration: BoxDecoration(
                   border: const Border(
                     right: BorderSide(color: PdfColors.black),
                   ),
-                  color: i % 2 == 0 ? PdfColors.grey400 : accentColor,
+                  color: i % 2 == 0 ? PdfColors.white : accentColor,
                 ),
-                padding: const EdgeInsets.only(left: 50, top: 12),
+                padding: const EdgeInsets.only(left: 50, top: 15),
                 child: pw.Text(total[i].toString(),
                     style: const TextStyle(
                       color: PdfColors.black,
@@ -529,10 +540,24 @@ class Invoice {
             ]),
         ]));
   }
+
+  pw.Widget _tableend(Context context) {
+    return pw.Container(
+        decoration: BoxDecoration(
+            color: PdfColors.white,
+            border: Border(
+                left: BorderSide(color: tableColor),
+                right: BorderSide(color: tableColor),
+                bottom: BorderSide(
+                  color: tableColor,
+                ))),
+        height: 70,
+        margin: const pw.EdgeInsets.only(left: 45.5, right: 45.5));
+  }
 }
 
 String _formatDate(DateTime date) {
-  final format = DateFormat.yMMMd('en_US');
+  final format = DateFormat.yMd('en_US');
   return format.format(date);
 }
 

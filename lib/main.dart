@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf_generator/pdf_generator.dart';
 import 'package:printing/printing.dart';
+import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +16,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool light = true;
+  bool light = false;
+  var isweb = kIsWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              'Invoice',
-              style: TextStyle(fontSize: 24),
+            title: Text(
+              isweb ? 'Invoice Web' : 'Invoice App',
+              style: const TextStyle(fontSize: 24),
             ),
             backgroundColor: Colors.black,
             actions: [
@@ -61,6 +64,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: PdfPreview(
             maxPageWidth: 700,
+            initialPageFormat: PdfPageFormat.a4,
             build: ((format) =>
                 light ? generateInvoicehindi(format) : generateInvoice(format)),
           ),
