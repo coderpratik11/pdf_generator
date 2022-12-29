@@ -1,13 +1,13 @@
 //Procuct class for table
 class Product {
   const Product(
-    this.sku,
+    this.sl,
     this.productName,
     this.price,
     this.quantity,
   );
 
-  final String sku;
+  final String sl;
   final String productName;
   final double price;
   final int quantity;
@@ -16,7 +16,7 @@ class Product {
   String getIndex(int index) {
     switch (index) {
       case 0:
-        return sku;
+        return sl;
       case 1:
         return productName;
       case 2:

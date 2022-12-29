@@ -382,7 +382,7 @@ class Invoice {
 //Table widget
   pw.Widget _contentTable(Context context) {
     const tableHeaders = ['SL.', 'Item Description', 'Price', 'Qty', 'Total'];
-    final List<dynamic> sl = products.map((e) => e.sku).toList();
+    final List<dynamic> sl = products.map((e) => e.sl).toList();
     final List<dynamic> productname =
         products.map((e) => e.productName).toList();
     final List<dynamic> price = products.map((e) => e.price).toList();

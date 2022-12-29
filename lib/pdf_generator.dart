@@ -9,10 +9,10 @@ Future<Uint8List> generateInvoice(PdfPageFormat pageFormat) async {
   final lorem = pw.LoremText();
 
   final products = <Product>[
-    Product('1', lorem.sentence(4), 3.99, 2),
-    Product('2', lorem.sentence(6), 15, 2),
-    Product('3', lorem.sentence(4), 6.95, 3),
-    Product('4', lorem.sentence(3), 49.99, 4),
+    Product('1', lorem.sentence(4), 1, 2),
+    Product('2', lorem.sentence(6), 1, 2),
+    Product('3', lorem.sentence(4), 1, 3),
+    Product('4', lorem.sentence(3), 1, 4),
   ];
 
 //instance of invoice
