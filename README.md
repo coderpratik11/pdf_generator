@@ -15,7 +15,7 @@ The application has a logging framework which includes appending the logs at log
 - If log is an informative log and its important to know the status of the user at that instance. 
 - To know whether is there any error or exception or a particular path is followed use devlog
 
-## How to use devlog()?
+### How to use devlog()?
 - devlog(text:"The text you need to log",logType:LogType.INFO)
  for more information go through lib/core/logs.dart
 
